@@ -36,9 +36,13 @@ result_df
 # %%
 result_df
 # %%
-plt.figure(figsize=(20,12))
-corr_matrix = result_df.corr() > 0.003
-corr_matrix['price_log'].sort_values(ascending=False)
-sb.heatmap(corr_matrix, annot=True)
+plt.figure(figsize=(20, 12))
+corr_matrix = result_df.corr()
+filtered_corr = corr_matrix['price_log'][abs(corr_matrix['price_log']) > 0.003].sort_values(ascending=False)
+print(filtered_corr)
+sb.heatmap(corr_matrix, annot=True, cmap='coolwarm')
+plt.title("Correlation Heatmap")
 plt.show()
+# %%
+result_df = result_df = result_df.to_csv('../data/test.csv').to_csv('../data/test.csv')
 # %%
