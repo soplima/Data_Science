@@ -198,7 +198,7 @@ import seaborn as sns
 df['log_price'] = np.log1p(df['price'])  
 
 plt.figure(figsize=(10, 6))
-sns.histplot(df['log_price'], bins=100, kde=True, stat='density', color='coral')
+sns.histplot(df['log_price'], bins=50, kde=True, stat='density', color='coral')
 
 plt.title('Distribuição Logarítmica dos Preços dos Imóveis')
 plt.xlabel('log(Preço + 1)')
@@ -206,4 +206,19 @@ plt.ylabel('Densidade')
 plt.grid(True, linestyle='--', alpha=0.5)
 plt.tight_layout()
 plt.show()
+# %%
+import scipy.stats as stats
+stats.probplot(df['log_price'], dist="norm", plot=plt)
+plt.title("Q-Q Plot for log(Price)")
+plt.show()
+# %%
+from scipy.stats import shapiro
+
+stat, p = shapiro(df['log_price'].sample(5000))  # Use sample if too large
+print('Shapiro-Wilk Test: stat=%.3f, p=%.3f' % (stat, p))
+
+if p > 0.05:
+    print("Data looks Gaussian (normal distribution)")
+else:
+    print("Data does NOT look Gaussian")
 # %%
